@@ -1,12 +1,12 @@
 ```mermaid
 classDiagram
-    %% Initial PawPal+ UML draft.
-    %% Update attributes, methods, and relationships as implementation changes.
+    %% PawPal+ backend class diagram.
+    %% Reflects the four backend classes in Objects.py.
 
     class User {
         +str owner_name
         +list~Pet~ pets
-        +add_pet(pet) None
+        +add_pet(pet: Pet) None
         +get_all_tasks() list~Task~
     }
 
@@ -15,27 +15,28 @@ classDiagram
         +str species
         +int age
         +list~Task~ tasks
-        +add_task(task) None
+        +add_task(task: Task) None
         +get_tasks() list~Task~
     }
 
     class Task {
         +str description
         +str time
+        +int duration
         +str frequency
         +bool completed
         +mark_complete() None
     }
 
-    class Scheduler {
+    class Schedule {
         +User user
         +get_schedule() list~Task~
-        +sort_by_time(tasks) list~Task~
-        +filter_tasks(status, pet_name) list~Task~
+        +sort_by_time(tasks: list~Task~) list~Task~
+        +filter_tasks(status: bool, pet_name: str) list~Task~
         +detect_conflicts() list~str~
     }
 
-    User --> Pet : owns
-    Pet --> Task : has
-    Scheduler --> User : retrieves tasks from
+    User "1" --> "*" Pet : owns
+    Pet "1" --> "*" Task : has
+    Schedule "1" --> "1" User : organizes tasks for
 ```
