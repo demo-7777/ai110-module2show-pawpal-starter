@@ -3,6 +3,16 @@
 from pawpal_system import User, Pet, Task, Schedule
 
 
+def print_tasks(title: str, tasks: list[Task]) -> None:
+    """Print a titled list of tasks."""
+    print(title)
+    print("=" * 40)
+    for task in tasks:
+        status = "✅" if task.completed else "⬜"
+        print(f"{status} {task.time}  {task.description} ({task.duration} min)")
+    print("=" * 40)
+
+
 def main() -> None:
     # Create an owner and two pets.
     owner = User("Jordan")
@@ -11,26 +21,41 @@ def main() -> None:
     owner.add_pet(mochi)
     owner.add_pet(biscuit)
 
-    # Add tasks with different times across both pets.
-    mochi.add_task(Task("Morning feeding", "08:00", 10))
-    biscuit.add_task(Task("Morning walk", "09:00", 30))
+    # Add tasks out of chronological order to exercise sorting.
+    # Mochi's feeding and Biscuit's walk both at 09:00 -> a conflict.
     mochi.add_task(Task("Vet appointment", "15:00", 45))
+    biscuit.add_task(Task("Morning walk", "09:00", 30))
+    mochi.add_task(Task("Morning feeding", "09:00", 10, frequency="daily"))
     biscuit.add_task(Task("Evening feeding", "18:00", 10))
 
-    # Build the schedule and print today's tasks.
     schedule = Schedule(owner)
 
-    print(f"🐾 Today's Schedule for {owner.owner_name}")
+    # Sorted view: tasks returned chronologically regardless of insert order.
+    sorted_tasks = schedule.sort_by_time(schedule.get_schedule())
+    print_tasks(f"🐾 Today's Schedule for {owner.owner_name} (sorted by time)", sorted_tasks)
+
+    # Filtered view: just one pet's tasks, still sorted.
+    mochi_tasks = schedule.sort_by_time(schedule.filter_tasks(pet_name="Mochi"))
+    print_tasks("\n🐱 Mochi's tasks", mochi_tasks)
+
+    # Conflict detection: warn about tasks at the same time.
+    print("\n🔎 Conflict check")
     print("=" * 40)
-    for pet in owner.pets:
-        for task in pet.get_tasks():
-            status = "✅" if task.completed else "⬜"
-            print(
-                f"{status} {task.time}  {task.description} "
-                f"({pet.name}, {task.duration} min)"
-            )
+    conflicts = schedule.detect_conflicts()
+    for warning in conflicts:
+        print(warning)
+    if not conflicts:
+        print("No conflicts found.")
     print("=" * 40)
-    print(f"{len(schedule.get_schedule())} task(s) scheduled today.")
+
+    # Recurring tasks: completing a daily task spawns the next occurrence.
+    print("\n🔁 Completing Mochi's daily feeding")
+    print("=" * 40)
+    before = len(mochi.get_tasks())
+    mochi.complete_task(mochi.get_tasks()[1])  # the "Morning feeding" daily task
+    after = len(mochi.get_tasks())
+    print(f"Mochi's task count: {before} -> {after} (next occurrence created)")
+    print("=" * 40)
 
 
 if __name__ == "__main__":

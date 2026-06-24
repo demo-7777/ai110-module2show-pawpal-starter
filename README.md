@@ -47,14 +47,29 @@ pip install -r requirements.txt
 Running the CLI demo (`python main.py`) verifies the backend logic in the terminal:
 
 ```
-🐾 Today's Schedule for Jordan
+🐾 Today's Schedule for Jordan (sorted by time)
 ========================================
-⬜ 08:00  Morning feeding (Mochi, 10 min)
-⬜ 15:00  Vet appointment (Mochi, 45 min)
-⬜ 09:00  Morning walk (Biscuit, 30 min)
-⬜ 18:00  Evening feeding (Biscuit, 10 min)
+⬜ 09:00  Morning feeding (10 min)
+⬜ 09:00  Morning walk (30 min)
+⬜ 15:00  Vet appointment (45 min)
+⬜ 18:00  Evening feeding (10 min)
 ========================================
-4 task(s) scheduled today.
+
+🐱 Mochi's tasks
+========================================
+⬜ 09:00  Morning feeding (10 min)
+⬜ 15:00  Vet appointment (45 min)
+========================================
+
+🔎 Conflict check
+========================================
+⚠️ Conflict at 09:00: Morning feeding, Morning walk
+========================================
+
+🔁 Completing Mochi's daily feeding
+========================================
+Mochi's task count: 2 -> 3 (next occurrence created)
+========================================
 ```
 
 ## 🧪 Testing PawPal+
@@ -75,14 +90,12 @@ Sample test output:
 
 ## 📐 Smarter Scheduling
 
-> Fill in once you've implemented scheduling logic.
-
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+| Task sorting | `Schedule.sort_by_time(tasks)` | Sorts tasks chronologically via `sorted()` with a key on the `HH:MM` time string. |
+| Filtering | `Schedule.filter_tasks(status, pet_name)` | Returns tasks filtered by completion status and/or pet name; composes with sorting. |
+| Conflict handling | `Schedule.detect_conflicts()` | Groups tasks by exact start time and returns a warning string for any time shared by 2+ tasks (exact-match only — see reflection §2b). |
+| Recurring tasks | `Pet.complete_task(task)` | Marking a `daily`/`weekly` task complete creates a fresh incomplete copy as the next occurrence. |
 
 ## 📸 Demo Walkthrough
 
