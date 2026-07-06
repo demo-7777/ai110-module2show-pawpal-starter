@@ -80,13 +80,28 @@ pytest
 
 # Run with coverage:
 pytest --cov
+
+# Run my own tests:
+# Tests cover Schedule's sorting correctness, recurrence logic, and conflict detection
+python -m pytest
 ```
 
 Sample test output:
 
 ```
-# Paste your pytest output here
+========================================================= test session starts ==========================================================
+platform linux -- Python 3.13.0, pytest-9.0.3, pluggy-1.6.0
+rootdir: /mnt/c/vs/ai110/week4/ai110-module2show-pawpal-starter
+plugins: anyio-4.13.0
+collected 17 items                                                                                                                     
+
+tests/test_pawpal.py .......                                                                                                     [ 41%]
+tests/test_schedule.py ..........                                                                                                [100%]
+
+========================================================== 17 passed in 0.29s ==========================================================
 ```
+
+**Confidence Level:** ★★★★★
 
 ## 📐 Smarter Scheduling
 
