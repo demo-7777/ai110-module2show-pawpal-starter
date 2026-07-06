@@ -1,0 +1,41 @@
+classDiagram
+    %% PawPal+ final UML — matches the implementation in pawpal_system.py.
+
+    class User {
+        +str owner_name
+        +list~Pet~ pets
+        +add_pet(pet: Pet) None
+        +get_all_tasks() list~Task~
+    }
+
+    class Pet {
+        +str name
+        +str species
+        +int age
+        +list~Task~ tasks
+        +add_task(task: Task) None
+        +get_tasks() list~Task~
+        +complete_task(task: Task) Task
+    }
+
+    class Task {
+        +str description
+        +str time
+        +int duration
+        +str frequency
+        +bool completed
+        +mark_complete() None
+    }
+
+    class Schedule {
+        +User user
+        +get_schedule() list~Task~
+        +sort_by_time(tasks: list~Task~) list~Task~
+        +filter_tasks(status: bool, pet_name: str) list~Task~
+        +detect_conflicts() list~str~
+    }
+
+    User "1" --> "*" Pet : owns
+    Pet "1" --> "*" Task : has
+    Schedule "1" --> "1" User : organizes tasks for
+    Pet ..> Task : creates next occurrence

@@ -68,8 +68,15 @@ st.divider()
 st.subheader("Today's Schedule")
 if st.button("Generate schedule"):
     schedule = Schedule(owner)
-    tasks = schedule.get_schedule()
+    tasks = schedule.sort_by_time(schedule.get_schedule())
     if tasks:
+        # Surface any same-time clashes before showing the plan.
+        conflicts = schedule.detect_conflicts()
+        for warning in conflicts:
+            st.warning(warning)
+        if not conflicts:
+            st.success("No scheduling conflicts found.")
+
         rows = [
             {
                 "Time": t.time,

@@ -42,6 +42,16 @@ pip install -r requirements.txt
 6. Connect your logic to the Streamlit UI in `app.py`.
 7. Refine UML so it matches what you actually built.
 
+## ✨ Features
+
+- **Owner & pet management** — add an owner and multiple pets, each with its own task list (`User.add_pet`, `Pet.add_task`).
+- **Task tracking** — every task records a description, time (`HH:MM`), duration, frequency, and completion status.
+- **Sorting by time** — the daily schedule is returned in chronological order (`Schedule.sort_by_time`).
+- **Filtering** — narrow tasks by pet and/or completion status (`Schedule.filter_tasks`).
+- **Conflict warnings** — flags any tasks scheduled at the same time (`Schedule.detect_conflicts`).
+- **Recurring tasks** — completing a `daily`/`weekly` task automatically creates its next occurrence (`Pet.complete_task`).
+- **Streamlit UI** — add pets and tasks, then generate a sorted schedule with conflict warnings.
+
 ## 🖥️ Sample Output
 
 Running the CLI demo (`python main.py`) verifies the backend logic in the terminal:
@@ -114,12 +124,37 @@ tests/test_schedule.py ..........                                               
 
 ## 📸 Demo Walkthrough
 
-Describe your app in numbered steps so a reader can follow along without watching a video:
+Run the UI with `streamlit run app.py`. The app lets a pet owner:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+- Set the **owner name** and add one or more **pets** (name, species, age).
+- Add **tasks** to a chosen pet (description, time, duration, frequency).
+- Click **Generate schedule** to see today's plan, sorted by time, with conflict warnings.
+
+**Example workflow**
+
+1. Enter the owner name (e.g. *Jordan*).
+2. Add a pet — *Mochi*, cat, age 3 — then add a second pet, *Biscuit*.
+3. Add tasks: Mochi's *Morning feeding* at 09:00 (daily) and *Vet appointment* at 15:00; Biscuit's *Morning walk* at 09:00 and *Evening feeding* at 18:00.
+4. Click **Generate schedule**. Tasks appear **sorted by time** in a table.
+5. Because Mochi's feeding and Biscuit's walk are both at 09:00, the app shows a **conflict warning** (`st.warning`); with no clashes it shows a success message instead.
+
+**Key `Schedule` behaviors shown:** chronological sorting (`sort_by_time`) and same-time conflict warnings (`detect_conflicts`). Recurring tasks (`Pet.complete_task`) regenerate the next occurrence when a daily/weekly task is completed.
+
+**Sample CLI output** (`python main.py`):
+
+```
+🐾 Today's Schedule for Jordan (sorted by time)
+========================================
+⬜ 09:00  Morning feeding (10 min)
+⬜ 09:00  Morning walk (30 min)
+⬜ 15:00  Vet appointment (45 min)
+⬜ 18:00  Evening feeding (10 min)
+========================================
+
+🔎 Conflict check
+========================================
+⚠️ Conflict at 09:00: Morning feeding, Morning walk
+========================================
+```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
