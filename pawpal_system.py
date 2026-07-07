@@ -46,7 +46,9 @@ class Pet:
         """Mark a task complete; if recurring, add and return its next occurrence."""
         task.mark_complete()
         if task.frequency in ("daily", "weekly"):
-            next_task = Task(task.description, task.time, task.duration, task.frequency)
+            next_task = Task(
+                task.description, task.time, task.duration, task.frequency, task.priority
+            )
             self.add_task(next_task)
             return next_task
         return None
@@ -60,6 +62,7 @@ class Task:
     time: str  # "HH:MM" 24-hour format
     duration: int  # minutes
     frequency: str = "once"  # "once", "daily", "weekly"
+    priority: str = "medium"  # "low", "medium", "high" — display only
     completed: bool = False
 
     def mark_complete(self) -> None:

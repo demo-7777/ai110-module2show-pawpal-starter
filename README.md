@@ -45,7 +45,7 @@ pip install -r requirements.txt
 ## ✨ Features
 
 - **Owner & pet management** — add an owner and multiple pets, each with its own task list (`User.add_pet`, `Pet.add_task`).
-- **Task tracking** — every task records a description, time (`HH:MM`), duration, frequency, and completion status.
+- **Task tracking** — every task records a description, time (`HH:MM`), duration, frequency, priority (low/medium/high, display-only), and completion status.
 - **Sorting by time** — the daily schedule is returned in chronological order (`Schedule.sort_by_time`).
 - **Filtering** — narrow tasks by pet and/or completion status (`Schedule.filter_tasks`).
 - **Conflict warnings** — flags any tasks scheduled at the same time (`Schedule.detect_conflicts`).
@@ -59,16 +59,16 @@ Running the CLI demo (`python main.py`) verifies the backend logic in the termin
 ```
 🐾 Today's Schedule for Jordan (sorted by time)
 ========================================
-⬜ 09:00  Morning feeding (10 min)
-⬜ 09:00  Morning walk (30 min)
-⬜ 15:00  Vet appointment (45 min)
-⬜ 18:00  Evening feeding (10 min)
+⬜ 09:00  Morning feeding (10 min, daily, high priority)
+⬜ 09:00  Morning walk (30 min, once, medium priority)
+⬜ 15:00  Vet appointment (45 min, once, high priority)
+⬜ 18:00  Evening feeding (10 min, once, low priority)
 ========================================
 
 🐱 Mochi's tasks
 ========================================
-⬜ 09:00  Morning feeding (10 min)
-⬜ 15:00  Vet appointment (45 min)
+⬜ 09:00  Morning feeding (10 min, daily, high priority)
+⬜ 15:00  Vet appointment (45 min, once, high priority)
 ========================================
 
 🔎 Conflict check
@@ -127,7 +127,7 @@ tests/test_schedule.py ..........                                               
 Run the UI with `streamlit run app.py`. The app lets a pet owner:
 
 - Set the **owner name** and add one or more **pets** (name, species, age).
-- Add **tasks** to a chosen pet (description, time, duration, frequency).
+- Add **tasks** to a chosen pet (description, time, duration, frequency, priority).
 - Click **Generate schedule** to see today's plan, sorted by time, with conflict warnings.
 
 **Example workflow**
@@ -145,10 +145,10 @@ Run the UI with `streamlit run app.py`. The app lets a pet owner:
 ```
 🐾 Today's Schedule for Jordan (sorted by time)
 ========================================
-⬜ 09:00  Morning feeding (10 min)
-⬜ 09:00  Morning walk (30 min)
-⬜ 15:00  Vet appointment (45 min)
-⬜ 18:00  Evening feeding (10 min)
+⬜ 09:00  Morning feeding (10 min, daily, high priority)
+⬜ 09:00  Morning walk (30 min, once, medium priority)
+⬜ 15:00  Vet appointment (45 min, once, high priority)
+⬜ 18:00  Evening feeding (10 min, once, low priority)
 ========================================
 
 🔎 Conflict check

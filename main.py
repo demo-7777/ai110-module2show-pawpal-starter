@@ -9,7 +9,10 @@ def print_tasks(title: str, tasks: list[Task]) -> None:
     print("=" * 40)
     for task in tasks:
         status = "✅" if task.completed else "⬜"
-        print(f"{status} {task.time}  {task.description} ({task.duration} min)")
+        print(
+            f"{status} {task.time}  {task.description} "
+            f"({task.duration} min, {task.frequency}, {task.priority} priority)"
+        )
     print("=" * 40)
 
 
@@ -23,10 +26,10 @@ def main() -> None:
 
     # Add tasks out of chronological order to exercise sorting.
     # Mochi's feeding and Biscuit's walk both at 09:00 -> a conflict.
-    mochi.add_task(Task("Vet appointment", "15:00", 45))
-    biscuit.add_task(Task("Morning walk", "09:00", 30))
-    mochi.add_task(Task("Morning feeding", "09:00", 10, frequency="daily"))
-    biscuit.add_task(Task("Evening feeding", "18:00", 10))
+    mochi.add_task(Task("Vet appointment", "15:00", 45, priority="high"))
+    biscuit.add_task(Task("Morning walk", "09:00", 30, priority="medium"))
+    mochi.add_task(Task("Morning feeding", "09:00", 10, frequency="daily", priority="high"))
+    biscuit.add_task(Task("Evening feeding", "18:00", 10, priority="low"))
 
     schedule = Schedule(owner)
 

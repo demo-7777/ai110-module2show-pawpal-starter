@@ -48,16 +48,18 @@ if owner.pets:
     with st.form("add_task", clear_on_submit=True):
         pet_name = st.selectbox("Pet", [p.name for p in owner.pets])
         description = st.text_input("Description", value="Morning walk")
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
             time = st.text_input("Time (HH:MM)", value="09:00")
         with col2:
             duration = st.number_input("Duration (min)", min_value=1, max_value=240, value=20)
         with col3:
             frequency = st.selectbox("Frequency", ["once", "daily", "weekly"])
+        with col4:
+            priority = st.selectbox("Priority", ["low", "medium", "high"], index=1)
         if st.form_submit_button("Add task"):
             pet = next(p for p in owner.pets if p.name == pet_name)
-            pet.add_task(Task(description, time, int(duration), frequency))
+            pet.add_task(Task(description, time, int(duration), frequency, priority))
             st.success(f"Added '{description}' for {pet_name}.")
 else:
     st.info("Add a pet before scheduling tasks.")
@@ -83,6 +85,7 @@ if st.button("Generate schedule"):
                 "Task": t.description,
                 "Duration (min)": t.duration,
                 "Frequency": t.frequency,
+                "Priority": t.priority,
                 "Done": "✅" if t.completed else "⬜",
             }
             for t in tasks
