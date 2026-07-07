@@ -35,7 +35,7 @@
 - What constraints does your scheduler consider (for example: time, priority, preferences)?
 - How did you decide which constraints mattered most?
 
-    - The schedule only considers time, there is no priority value the schedule tracks.
+    - The schedule only considers time, there is no priority value the schedule uses during schedule generation.
     - It makes sense to only consider time as a constraint since it is intuitive to decide when two tasks overlap.
     - Priority and Preferences as constraints doesn't really make sense since the goal of the scheduler is to create a plan to complete all tasks.  
 
